@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sana Özel Mektup 💌</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sana Özel Mektup 💌</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
 </head>
 <body>
-  <div class="container">
-    <div class="book">
-      <div class="page" id="page">
-        <p id="message">Hoş geldin, bu sana özel bir aşk mektubu... 💖</p>
-        <button id="nextBtn">➤ Devam Et</button>
-      </div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="container">
+        <div class="book">
+            <button class="music-control" id="musicBtn" title="Müzik Aç/Kapat">
+                <i class="fas fa-music"></i>
+            </button>
+            
+            <div class="page" id="page">
+                <div class="message-container">
+                    <p id="message">Hoş geldin aşkım... Bu sana özel bir aşk mektubu 💖</p>
+                </div>
+                <button id="nextBtn" class="heartbeat">✨ Devam Et ✨</button>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
