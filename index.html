@@ -10,23 +10,12 @@
 </head>
 <body>
     <div class="floating-hearts" id="floatingHearts"></div>
-    <div class="floating-stars" id="floatingStars"></div>
-    
-    <div class="notification" id="notification"></div>
     
     <div class="container">
         <div class="book">
-            <div class="controls">
-                <button class="control-btn" id="musicBtn" title="Müzik">
-                    <i class="fas fa-music"></i>
-                </button>
-                <button class="control-btn" id="gameBtn" title="Oyunlar">
-                    <i class="fas fa-gamepad"></i>
-                </button>
-                <button class="control-btn" id="effectBtn" title="Efektler">
-                    <i class="fas fa-magic"></i>
-                </button>
-            </div>
+            <button class="music-control" id="musicBtn" title="Müzik Aç/Kapat">
+                <i class="fas fa-music"></i>
+            </button>
             
             <div class="page" id="page">
                 <div class="message-container">
@@ -35,39 +24,13 @@
                 <button id="nextBtn" class="heartbeat">✨ Devam Et ✨</button>
             </div>
             
-            <!-- Oyun Konteynerleri -->
-            <div class="game-container" id="heartCatchGame">
-                <button class="close-game" onclick="closeGame()">&times;</button>
-                <h3 class="game-title">💖 Kalpleri Yakala 💖</h3>
-                <div class="game-score">Skor: <span id="heartScore">0</span></div>
-                <div class="heart-game" id="heartGameArea"></div>
-                <button onclick="startHeartGame()">Oyunu Başlat</button>
-            </div>
-            
-            <div class="game-container" id="memoryGame">
-                <button class="close-game" onclick="closeGame()">&times;</button>
-                <h3 class="game-title">💕 Hafıza Oyunu 💕</h3>
-                <div class="game-score">Eşleşen: <span id="memoryScore">0</span>/8</div>
-                <div class="memory-grid" id="memoryGrid"></div>
-                <button onclick="startMemoryGame()">Yeni Oyun</button>
-            </div>
-            
-            <div class="game-container" id="drawingGame">
-                <button class="close-game" onclick="closeGame()">&times;</button>
-                <h3 class="game-title">💘 Kalp Çiz 💘</h3>
-                <canvas class="drawing-canvas" id="drawCanvas" width="300" height="200"></canvas>
-                <div style="margin-top: 15px;">
-                    <button onclick="clearCanvas()">Temizle</button>
-                    <button onclick="drawHeart()">Örnek Kalp</button>
-                </div>
-            </div>
-            
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
             </div>
         </div>
     </div>
 
+    
     <script src="script.js"></script>
 </body>
 </html>
