@@ -25,7 +25,7 @@
             100% { background-position: 0% 50%; }
         }
         
-        .floating-hearts {
+        .floating-hearts, .floating-stars {
             position: fixed;
             width: 100%;
             height: 100%;
@@ -33,17 +33,27 @@
             z-index: 1;
         }
         
-        .heart {
+        .heart, .star {
             position: absolute;
-            color: rgba(255, 182, 193, 0.3);
-            animation: float 6s ease-in-out infinite;
+            color: rgba(255, 182, 193, 0.4);
+            animation: float 8s ease-in-out infinite;
             font-size: 20px;
+        }
+        
+        .star {
+            color: rgba(255, 215, 0, 0.6);
+            animation: twinkle 3s ease-in-out infinite;
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
             50% { opacity: 1; }
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         
         .container {
@@ -53,45 +63,53 @@
         }
         
         .book {
-            width: 400px;
-            height: 550px;
+            width: 450px;
+            height: 600px;
             background: linear-gradient(145deg, #ffffff, #f8f8f8);
             border-radius: 20px;
             box-shadow: 
                 0 25px 60px rgba(0, 0, 0, 0.15),
                 0 0 0 1px rgba(255, 255, 255, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            padding: 40px;
+            padding: 30px;
             transform-style: preserve-3d;
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             text-align: center;
             position: relative;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: bookFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes bookFloat {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(2deg); }
         }
         
         .book:hover {
-            transform: rotateY(5deg) rotateX(5deg);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            transform: rotateY(8deg) rotateX(5deg) scale(1.02);
+            box-shadow: 0 35px 100px rgba(0, 0, 0, 0.25);
+            animation-play-state: paused;
         }
         
         .book::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ff9a9e, #fecfef, #ff9a9e);
-            border-radius: 22px;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef, #ff9a9e, #ffd3e1);
+            background-size: 400% 400%;
+            border-radius: 23px;
             z-index: -1;
-            opacity: 0.5;
-            animation: borderGlow 3s ease-in-out infinite alternate;
+            opacity: 0.6;
+            animation: borderGlow 4s ease-in-out infinite, gradientShift 8s ease infinite;
         }
         
         @keyframes borderGlow {
-            from { opacity: 0.5; transform: scale(1); }
-            to { opacity: 0.8; transform: scale(1.02); }
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.01); }
         }
         
         .page {
@@ -111,20 +129,21 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            position: relative;
         }
         
         #message {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #2c3e50;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.8;
             font-family: 'Dancing Script', cursive;
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 1s ease forwards;
-            min-height: 200px;
+            animation: fadeInUp 1.2s ease forwards;
+            min-height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -137,42 +156,193 @@
             }
         }
         
-        .music-control {
+        .controls {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
             background: rgba(255, 255, 255, 0.8);
             border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #ff6b81;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .music-control:hover {
-            background: rgba(255, 255, 255, 0.9);
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
+        }
+        
+        .game-container {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        .game-active {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: gameSlideIn 0.5s ease forwards;
+        }
+        
+        @keyframes gameSlideIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .game-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff6b81;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .close-game {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6b81;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .close-game:hover {
+            background: #ff4757;
+            transform: scale(1.1) rotate(90deg);
+        }
+        
+        /* Kalp Yakalama Oyunu */
+        .heart-game {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            border: 2px dashed #ff6b81;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ffd3e1, #ffe0e6);
+        }
+        
+        .falling-heart {
+            position: absolute;
+            font-size: 25px;
+            cursor: pointer;
+            animation: heartFall 3s linear forwards;
+            transition: transform 0.2s ease;
+            z-index: 10;
+        }
+        
+        .falling-heart:hover {
+            transform: scale(1.3) rotate(20deg);
+        }
+        
+        @keyframes heartFall {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(400px); }
+        }
+        
+        .game-score {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: #ff6b81;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        /* Hafıza Oyunu */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        
+        .memory-card {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .memory-card.flipped {
+            background: white;
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background: linear-gradient(45deg, #98fb98, #90ee90);
             transform: scale(1.1);
         }
         
+        /* Kalp Çizimi Oyunu */
+        .drawing-canvas {
+            border: 2px solid #ff6b81;
+            border-radius: 15px;
+            cursor: crosshair;
+            background: white;
+        }
+        
         button {
-            padding: 15px 30px;
+            padding: 12px 25px;
             background: linear-gradient(45deg, #ff6b81, #ff8fab);
             border: none;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-family: 'Dancing Script', cursive;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 10px 30px rgba(255, 107, 129, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 107, 129, 0.3);
             position: relative;
             overflow: hidden;
-            text-transform: none;
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
         
         button::before {
@@ -182,8 +352,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
         }
         
         button:hover::before {
@@ -192,37 +362,52 @@
         
         button:hover {
             background: linear-gradient(45deg, #ff4757, #ff6b81);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 129, 0.4);
-        }
-        
-        button:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 129, 0.4);
+            animation-play-state: paused;
         }
         
         .progress-bar {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 4px;
+            width: 250px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
+            border-radius: 3px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .progress {
             height: 100%;
-            background: linear-gradient(90deg, #ff6b81, #ff8fab);
+            background: linear-gradient(90deg, #ff6b81, #ff8fab, #ffd3e1);
             width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 2px;
+            transition: width 0.5s ease;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s linear infinite;
+        }
+        
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
         }
         
         .heartbeat {
@@ -237,7 +422,7 @@
         .sparkle {
             position: absolute;
             color: #ffd700;
-            font-size: 16px;
+            font-size: 18px;
             animation: sparkle 2s ease-in-out infinite;
             pointer-events: none;
         }
@@ -247,24 +432,56 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.6rem !important;
+            font-size: 1.8rem !important;
             font-weight: 700;
             text-shadow: none;
+            animation: finalGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes finalGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 154, 158, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 154, 158, 0.8)); }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b81, #ff8fab);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 129, 0.3);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
         }
         
         @media (max-width: 480px) {
             .book {
-                width: 350px;
-                height: 500px;
-                padding: 30px;
+                width: 380px;
+                height: 550px;
+                padding: 25px;
             }
             
             #message {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
-            button {
-                padding: 12px 25px;
-                font-size: 1rem;
+            .memory-grid {
+                max-width: 250px;
+            }
+            
+            .memory-card {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
             }
         }
